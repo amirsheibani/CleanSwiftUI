@@ -5,8 +5,23 @@
 //  Created by Amir Sheibani on 7/24/1403 AP.
 //
 
-class GetIPAddressRepositoryImpl: GetIPAddressRepository {
-    func getIPAddress() -> any Result {
-        return Success(data: "127.0.0.1", status: 200)
+class IPAddressRepositoryImpl: IPAddressRepository {
+    
+    let iPAddressRepository: IPAddressDataSource
+    init(iPAddressRepository: IPAddressDataSource) {
+        self.iPAddressRepository = iPAddressRepository
     }
+    
+    func getIPAddress() async -> Result<IPEntity> {
+        
+        do{
+            let result = try await self.iPAddressRepository.getIPAddress()
+            return ResultSuccess(data: result.data?.mapper(),message: result.message,status: result.status)
+        }catch let error{
+            return ResultFailure(error: error,message: error.localizedDescription,status: nil)
+        }
+    }
+    
+    
 }
+

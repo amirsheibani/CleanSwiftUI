@@ -3,19 +3,20 @@ import Foundation
 class BaseRespone{
     var status: Int?
     var message: String?
-    init(status: Int?, message: String?) {
-        self.status = status
-        self.message = message
+    init(data: Data) throws{
+        var result = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
+        self.status = result?["status"] as? Int
+        self.message = result?["message"] as? String
     }
 }
 
 class BaseSingleResponse<T>: BaseRespone{
    var data: T?
     
-    init(status: Int?, message:String?, data: Data,create:(([String:Any]?)->T)) throws{
-        super.init(status: status, message: message)
+    init(data: Data,create:([String:Any])->T) throws{
+        try super.init(data: data)
         var result = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
-        self.data = create(result)
+        self.data = create(result!)
     }
     
 }
@@ -23,10 +24,11 @@ class BaseSingleResponse<T>: BaseRespone{
 class BaseListResponse<T>: BaseRespone{
    var data: [T]?
     
-    init(status: Int?, message:String?, data: Data,create:(([String:Any]?)->T)) throws{
-        super.init(status: status, message: message)
+    init(data: Data,create:([String:Any]?)->T) throws{
+        try super.init(data: data)
+        
         let result = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
-        let items = result?["data"] as? [[String: Any]]
+        let items = result?["data"] as? [[String: Any]?]
         self.data = []
         if(items != nil){
             for item in items! {

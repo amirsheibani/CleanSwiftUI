@@ -1,10 +1,10 @@
 protocol BaseUseCase{
     associatedtype R
     associatedtype P
-    func call(arg: P) -> R
+    func call(arg: P) async -> R
 }
 
 protocol BaseUseCaseNoArgs{
     associatedtype R
-    func call() -> R
+    func call() async -> R
 }

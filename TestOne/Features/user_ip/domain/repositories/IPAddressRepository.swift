@@ -5,8 +5,8 @@
 //  Created by Amir Sheibani on 7/24/1403 AP.
 //
 
-protocol GetIPAddressRepository {
-    func getIPAddress() -> any Result
+protocol IPAddressRepository {
+    func getIPAddress() async -> Result<IPEntity>
 }
 
 

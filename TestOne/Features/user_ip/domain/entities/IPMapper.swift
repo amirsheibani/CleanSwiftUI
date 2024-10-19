@@ -6,8 +6,8 @@
 //
 
 extension IPModel{
-    func mapper() -> IPModel{
-        return IPModel(
+    func mapper() -> IPEntity{
+        return IPEntity(
                 ip: ip,
                 country: country
         )
@@ -15,7 +15,7 @@ extension IPModel{
 }
 
 extension IPEntity{
-    func mapper() -> IPEntity{
+    func mapper() -> IPModel{
         return IPEntity(
                 ip: ip,
                 country: country
