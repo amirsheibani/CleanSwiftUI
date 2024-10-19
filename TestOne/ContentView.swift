@@ -16,6 +16,14 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .task {
+            let result = await GetIPAddressUseCase(iPAddressRepository: IPAddressRepositoryImpl(iPAddressDataSource: IPAddressDataSourceImpl())).call()
+            if(result is ResultSuccess){
+                print(result.data?.ip ?? "ip:-")
+            }else{
+                print(result.message ?? "ip:-")
+            }
+        }
     }
 }
 

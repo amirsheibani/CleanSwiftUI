@@ -13,5 +13,14 @@ struct UserInfo: View{
         VStack{
             Text("Hello, World!").font(.title)
         }
+        .task {
+            let result = await GetIPAddressUseCase(iPAddressRepository: IPAddressRepositoryImpl(iPAddressDataSource: IPAddressDataSourceImpl())).call()
+            if(result is ResultSuccess){
+                print(result.data?.ip ?? "ip:-")
+            }else{
+                print(result.error!.localizedDescription)
+            }
+            
+        }
     }
 }

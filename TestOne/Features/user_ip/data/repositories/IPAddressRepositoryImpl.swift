@@ -7,15 +7,15 @@
 
 class IPAddressRepositoryImpl: IPAddressRepository {
     
-    let iPAddressRepository: IPAddressDataSource
-    init(iPAddressRepository: IPAddressDataSource) {
-        self.iPAddressRepository = iPAddressRepository
+    let iPAddressDataSource: IPAddressDataSource
+    init(iPAddressDataSource: IPAddressDataSource) {
+        self.iPAddressDataSource = iPAddressDataSource
     }
     
     func getIPAddress() async -> Result<IPEntity> {
         
         do{
-            let result = try await self.iPAddressRepository.getIPAddress()
+            let result = try await self.iPAddressDataSource.getIPAddress()
             return ResultSuccess(data: result.data?.mapper(),message: result.message,status: result.status)
         }catch let error{
             return ResultFailure(error: error,message: error.localizedDescription,status: nil)
