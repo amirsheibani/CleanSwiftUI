@@ -8,19 +8,16 @@
 import SwiftUI
 
 struct UserInfo: View{
-    public 
+    @StateObject var ipAddressManager = IPAddressManager()
+    
+    public
     var body: some View{
         VStack{
-            Text("Hello, World!").font(.title)
+            Text(ipAddressManager.ipAddress).font(.title)
         }
         .task {
-            let result = await GetIPAddressUseCase(iPAddressRepository: IPAddressRepositoryImpl(iPAddressDataSource: IPAddressDataSourceImpl())).call()
-            if(result is ResultSuccess){
-                print(result.data?.ip ?? "ip:-")
-            }else{
-                print(result.error!.localizedDescription)
-            }
             
+            await ipAddressManager.getIPAddress()
         }
     }
 }
